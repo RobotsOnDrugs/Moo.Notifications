@@ -1,0 +1,23 @@
+[
+  {
+	"ImagePath" : "press1.jpg",
+	"Description": "Press 1 to talk to a scammer",
+	"ButtonText": "1",
+	"URL": "https://scammer.info/",
+	"Enabled": true
+  },
+  {
+	"ImagePath" : "sfc.png",
+	"Description": "Shameless SFC plug",
+	"ButtonText": "Support SFC on Ko-fi",
+	"URL": "https://ko-fi.com/scamfightclub",
+	"Enabled": true
+  },
+  {
+	"ImagePath" : "buttsex.jpg",
+	"Description": "wut wut in da butt",
+	"ButtonText": "Click here for porn",
+	"URL": "https://www.pornhub.com/",
+	"Enabled": true
+  }
+]
