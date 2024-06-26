@@ -15,11 +15,10 @@ internal static class Notifier
 	{
 		Console.WriteLine(Environment.CurrentDirectory);
 		Random rand = new();
-		//Thread.Sleep(rand.Next(5, 20) * 1000);
 		string notification_settings_json;
 		try { notification_settings_json = File.ReadAllText("Notifications.json"); }
 		catch (Exception ex) when (ex is IOException or FileNotFoundException) { Console.WriteLine("Could not read Notifications.json."); _ = Console.ReadKey(); throw; }
-		List<NotificationData> notifs = JsonSerializer.Deserialize<List<NotificationData>>(notification_settings_json) ?? new();
+		List<NotificationData> notifs = JsonSerializer.Deserialize<List<NotificationData>>(notification_settings_json) ?? [];
 		List<NotificationData> enabled_notifs = notifs.Where(n => n.Enabled).ToList();
 		if (enabled_notifs.Count == 0)
 		{
@@ -39,7 +38,6 @@ internal static class Notifier
 	public static ToastNotification BuildNotification(List<NotificationData> notification_data)
 	{
 		Random rand = new();
-		// NotificationData data = rand.GetItems(notification_data.ToArray(), 1)[0];
 		NotificationData data = notification_data[rand.Next(0, notification_data.Count - 1)];
 		try
 		{
@@ -51,7 +49,8 @@ internal static class Notifier
 			Console.WriteLine("Could not correctly parse Notifications.json.");
 			throw;
 		}
-		Uri imagepath = Path.IsPathFullyQualified(data.ImagePath) ? new(data.ImagePath) : new Uri(AppDomain.CurrentDomain.BaseDirectory + "Images\\" + data.ImagePath);
+		string expanded_path = Path.Join(AppDomain.CurrentDomain.BaseDirectory, "Images", data.ImagePath);
+		Uri imagepath = Path.IsPathFullyQualified(data.ImagePath) ? new(data.ImagePath) : new Uri(expanded_path);
 		ToastContentBuilder toastbuilder = new ToastContentBuilder()
 			.AddText(data.Description)
 			.AddButton(data.ButtonText, ToastActivationType.Background, Convert.ToBase64String(Encoding.UTF8.GetBytes(data.URL.OriginalString)))
